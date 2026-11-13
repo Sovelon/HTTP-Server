@@ -1,5 +1,5 @@
 # Build directories
-build/
+build*/
 bin/
 obj/
 out/
@@ -51,3 +51,4 @@ _deps
 .idea/
 *.code-workspace
 .DS_Store
+.cache/
