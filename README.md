@@ -8,8 +8,8 @@
 
 | Участник | GitHub | Зона ответственности |
 |----------|--------|----------------------|
-| _Участник 1_ | [@t3xsel](https://github.com/t3xsel) | _TODO: например, HTTP-парсер, сетевой слой, graceful shutdown_ |
-| _Участник 2_ | [@Sovelon](https://github.com/Sovelon) | _TODO: например, хранилище, пул потоков, тесты_ |
+| Участник 1 | [@t3xsel](https://github.com/t3xsel) | HTTP-парсер, сетевой слой (сокеты, keep-alive), разбор аргументов, graceful shutdown, роутер и ручки, пул потоков |
+| Участник 2 | [@Sovelon](https://github.com/Sovelon) | хранилище `items` и его синхронизация, unit-тесты хранилища, интеграционный тест на гонку, CI и TSan/ASan, нагрузочные замеры и PERF.md |
 
 ## Статус
 
