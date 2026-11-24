@@ -18,9 +18,14 @@ find_package(Threads REQUIRED)
 
 # Логика сервера собирается в библиотеку, её используют и сервер, и тесты.
 add_library(http_core STATIC
+    src/config.cpp
+    src/handler.cpp
     src/http_parser.cpp
+    src/response.cpp
+    src/server.cpp
 )
 target_include_directories(http_core PUBLIC src)
+target_link_libraries(http_core PUBLIC Threads::Threads)
 target_compile_options(http_core PRIVATE -Wall -Wextra -Wpedantic)
 
 # Итоговый бинарник: ./build/server (требование задания).
@@ -41,7 +46,9 @@ if(BUILD_TESTS)
 
     enable_testing()
     add_executable(unit_tests
+        tests/test_config.cpp
         tests/test_http_parser.cpp
+        tests/test_server.cpp
     )
     target_link_libraries(unit_tests PRIVATE http_core GTest::gtest_main)
     include(GoogleTest)
