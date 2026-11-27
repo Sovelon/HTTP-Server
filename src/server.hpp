@@ -3,6 +3,8 @@
 #include <atomic>
 #include <cstdint>
 
+#include "storage.hpp"
+
 namespace http {
 
 // Простой TCP-сервер на POSIX sockets. Пока всё обслуживается в одном потоке:
@@ -29,6 +31,8 @@ private:
 
     int listen_fd_ = -1;
     std::uint16_t port_ = 0;
+
+    Storage storage_;
 };
 
 }  // namespace http

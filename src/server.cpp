@@ -158,7 +158,7 @@ void Server::serve_connection(int fd, const std::atomic<bool>& stop) {
             const ParseResult parsed = parse_request(buffer, request);
 
             if (parsed.status == ParseStatus::Complete) {
-                Response response = handle_request(request);
+                Response response = handle_request(request, storage_);
                 response.keep_alive = response.keep_alive && request.keep_alive;
                 if (!send_all(fd, serialize(response))) return;
                 buffer.erase(0, parsed.consumed);
