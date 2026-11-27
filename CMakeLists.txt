@@ -16,6 +16,21 @@ option(BUILD_TESTS "Build unit tests (downloads GoogleTest)" OFF)
 
 find_package(Threads REQUIRED)
 
+# JSON библиотека.
+find_package(nlohmann_json 3.11 QUIET)
+
+if(NOT nlohmann_json_FOUND)
+    include(FetchContent)
+
+    FetchContent_Declare(
+        nlohmann_json
+        URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    )
+
+    FetchContent_MakeAvailable(nlohmann_json)
+endif()
+
 # Логика сервера собирается в библиотеку, её используют и сервер, и тесты.
 add_library(http_core STATIC
     src/config.cpp
@@ -23,9 +38,16 @@ add_library(http_core STATIC
     src/http_parser.cpp
     src/response.cpp
     src/server.cpp
+    src/storage.cpp
 )
 target_include_directories(http_core PUBLIC src)
-target_link_libraries(http_core PUBLIC Threads::Threads)
+
+target_link_libraries(http_core 
+    PUBLIC 
+        Threads::Threads
+        nlohmann_json::nlohmann_json
+)
+
 target_compile_options(http_core PRIVATE -Wall -Wextra -Wpedantic)
 
 # Итоговый бинарник: ./build/server (требование задания).
@@ -49,6 +71,8 @@ if(BUILD_TESTS)
         tests/test_config.cpp
         tests/test_http_parser.cpp
         tests/test_server.cpp
+        tests/test_storage.cpp
+        tests/test_handler.cpp
     )
     target_link_libraries(unit_tests PRIVATE http_core GTest::gtest_main)
     include(GoogleTest)
